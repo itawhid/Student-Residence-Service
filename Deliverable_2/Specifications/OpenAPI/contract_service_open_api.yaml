@@ -1,0 +1,325 @@
+openapi: 3.0.0
+
+info:
+  title: Contract Service
+  version: 1.0.0 
+
+servers:
+  - url: http://{contract-service-base-uri}/api
+
+tags:
+  - name: contracts
+    description: Methods for contract resources
+
+paths:
+
+  /contracts:
+    post:
+      tags:
+        - contracts
+      summary: Adds a new contract
+      description: Method to add a new contract. Users only with Administrator role can invoke this method.
+      requestBody:
+        description: Contract object that needs to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewContract'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NewContract'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        400:
+          description: Validation failed
+        401:
+          $ref: '#/components/responses/UnauthorizedError' 
+      security:
+      - bearerAuth: []
+
+    get:
+      tags:
+        - contracts
+      summary: Retrieves contracts
+      description: Method to retrieve multiple contracts. Use allowed query parameters to filter and pagination. Users only with Administrator and Resident roles can invoke this method.
+      parameters:
+        - in: query
+          name: contractorsName
+          description: Contractors name to filter by
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: pageNum
+          description: Page number for the pagination.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1 (only if pageSize is present)
+        - in: query
+          name: pageSize
+          description: Page size for the pagination.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20 (only if pageNum is present)
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contracts'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Contracts'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+  
+  /contracts/{contract-id}:
+    get:
+      tags:
+        - contracts
+      summary: Retrieves a contract
+      description: Method to retrieve a partucular contract. Users only with Administrator and Resident roles can invoke this method.
+      parameters:
+        - in: path
+          name: contract-id
+          description: ID of the contract to be retreived
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        404:
+          description: No contract found with the specified ID
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: []
+
+  /contracts/{contract-id}/confirmation:
+    put:
+      tags:
+        - contracts
+      summary: Confirms a contract
+      description: Method to confirm a partucular contract. A contract can only be confirmed no later than two weeks after it's creation. Users only with Resident role can invoke this method.
+      parameters:
+        - in: path
+          name: contract-id
+          description: Contract ID
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: Successful operation
+        400:
+          description: Validation failed
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: No contract found with the specified ID
+      security:
+        - bearerAuth: []
+
+  /contracts/{contract-id}/extension:
+    put:
+      tags:
+        - contracts
+      summary: Extends a contract
+      description: Method to extend a partucular contract. A contract can only be extended no later than three months before it's current end date and maximum for six months only. Users only with Resident role can invoke this method.
+      requestBody:
+        description: Date upto the contract needs to be extended
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateContract'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdateContract'
+      parameters:
+        - in: path
+          name: contract-id
+          description: Contract ID
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: Successful operation
+        400:
+          description: Validation failed
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: No contract found with the specified ID
+      security:
+        - bearerAuth: []
+
+  /contracts/{contract-id}/termination:
+    put:
+      tags:
+        - contracts
+      summary: Terminates a contract
+      description: Method to extend a partucular contract. A contract can only be terminated no later than three months before it's current end date and maximum for six months only. Users only with Resident role can invoke this method.
+      requestBody:
+        description: Date on the contract needs to be terminated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateContract'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdateContract'
+      parameters:
+        - in: path
+          name: contract-id
+          description: Contract ID
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: Successful operation
+        400:
+          description: Validation failed
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: No contract found with the specified ID
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    NewContract:
+      type: object
+      properties:
+        contractorsName:
+          type: string
+        contractorsEmail:
+          type: string
+        contractorsPhone:
+          type: string
+        roomNumber:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        status:
+          type: string
+          description: Contract Status
+          enum:
+            - confirmed
+            - unconfirmed
+            
+      xml:
+        name: NewContract
+
+    Contract:
+      type: object
+      properties:
+        contractId:
+          type: string
+        contractorsName:
+          type: string
+        contractorsEmail:
+          type: string
+        contractorsPhone:
+          type: string
+        roomNumber:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        status:
+          type: string
+          description: Contract Status
+          enum:
+            - confirmed
+            - unconfirmed
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+            
+      xml:
+        name: Contract
+        
+    Contracts:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+              $ref: '#/components/schemas/Contract'
+        _links:
+          type: object
+          properties:
+            next:
+              type: object
+              properties:
+                href:
+                  type: string
+            prev:
+              type: object
+              properties:
+                href:
+                  type: string
+            
+      xml:
+        name: Contracts
+
+    UpdateContract:
+      type: object
+      properties:
+        newEndDate:
+          type: string
+          format: date
+            
+      xml:
+        name: UpdateContract
+
+  responses:
+    UnauthorizedError:
+      description: Missing/invalid access token or role not valid for the operation
