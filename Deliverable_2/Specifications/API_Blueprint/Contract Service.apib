@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://{contract-service-base-uri}/api
 
 # Contract Service
 
@@ -35,60 +35,121 @@ HOST: http://polls.apiblueprint.org/
                 "status:": "confirmed",
             }
 
+
 ### Retrieve a single Contract [GET]
+Method to retrieve a partucular contract. Users only with Administrator and Resident roles can invoke this method.
 
 + Response 200 (application/json)
 
     [Contract][]
+    
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
+
+
+
++ Response 404 
+
+        No contract found with the specified ID    
         
-## Contract confirmation [/contracts/{contract_id}/confirmation]
+        
+        
+## Contract Confirmation [/contracts/{contract_id}/confirmation]
 
 + Parameters
     + contract_id: 1 (required, string) - ID of the Contract in form of a string
 
-### Confrm Contract [PUT]
+### Confirm a Contract [PUT]
+Method to confirm a partucular contract. A contract can only be confirmed no later than two weeks after it's creation. Users only with Resident role can invoke this method.
 
-+ Parameters
-    + contract_id: 1 (required, string) - ID of the Contract in form of a string
     
 + Response 201 (application/json)
 
++ Response 400 
 
+        Validation failed
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
++ Response 404 
+
+        No contract found with the specified ID
+
+
+        
 ## Contract Extension [/contracts/{contract_id}/extension]
 
 + Parameters
     + contract_id: 1 (required, string) - ID of the Contract in form of a string
     
-### Extend Contract [PUT]
+### Extend a Contract [PUT]
+Method to extend a partucular contract. A contract can only be extended no later than three months before it's current end date and maximum for six months only. Users only with Resident role can invoke this method.
+
 + Request (application/json)
 
         {
             "newEndDate" : ""
         }
+        
+        
 + Response 201 (application/json)
 
     [Contract][]
+    
++ Response 400 
+
+        Validation failed
 
 
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
+
++ Response 404 
+
+        No contract found with the specified ID
+        
+        
 ## Terminate Contract [/contracts/{contract_id}/termination]
 
 + Parameters
     + contract_id: 1 (required, string) - ID of the Contract in form of a string
     
 ### Terminate a contract [PUT]
+Method to extend a partucular contract. A contract can only be terminated no later than three months before it's current end date and maximum for six months only. Users only with Resident role can invoke this method.
+
+
 + Request (application/json)
 
         {
             "newEndDate" : ""
         }
 
+
 + Response 201 (application/json)
 
     [Contract][]
     
++ Response 400 
+
+        Validation failed
+
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
+
++ Response 404 
+
+        No contract found with the specified ID    
     
-    
-## Contracts Collection [/contracts]
+## Contracts Collection [/contracts{?contractorsName,pageNum,pageSize}]
 Collection of all contracts
 
 + Model (application/hal+json)
@@ -123,16 +184,33 @@ Collection of all contracts
                     ]
                 }
             }
+            
+            
+            
 ### List all Contracts [GET]
+Method to retrieve multiple contracts. Use allowed query parameters to filter and pagination. Users only with Administrator and Resident roles can invoke this method.
+
 + Parameters
    + contractorsName (string, optional) - Contractors name to filter
-   + pageNum: 1 (integer, optional) - Page number for the pagination
-   + pageSize: 20 (integer, optional) - Page size for the pagination.
    
+   + pageNum (integer, optional) - Page number for the pagination
+        + Default: 1 (only if pageSize is present)
+        
+   + pageSize (integer, optional) - Page size for the pagination.
+        + Default: 20 (only if pageNum is present)
+        
+        
 + Response 200 (application/json)
     [Contracts Collection][]
-    
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+        
+        
 ### Create a New Contract [POST]
+Method to add a new contract. Users only with Administrator role can invoke this method.
+
 
 + contractorsName (string)
 + contractorsEmail (string)
@@ -157,6 +235,17 @@ Collection of all contracts
         }
     }
     
+    
+    
 + Response 201 (application/json)
 
     [Contract][]
+        
++ Response 400 
+
+        Validation failed
+
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
