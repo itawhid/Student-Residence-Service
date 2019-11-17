@@ -1,0 +1,118 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Caretaker Service
+
+## Appointment [/appointments/{appointment_id}]
+
++ Parameters
+    + appointment_id: 1 (required, string) - ID of the Appointment in form of a string
+    
++ Model (application/hal+json)
+
+    HAL+JSON representation of Appointments Collection Resource.
+    
+    + Headers
+    
+            Link: <http:/api.exmple.com/appointments/42>;rel="self", <http:/api.exmple.com/appointments/42/acceptance>;rel="acceptance"
+    
+    + Body
+    
+            {
+                "_links" : {
+                    "self": { "href": "/appointments/42" },
+                    "acceptance": { "href": "/appointments/42/acceptance" 
+                },
+                "id": "42",
+                "contractId": "1",
+                "contractorsName:": "X",
+                "roomNumber": "A1",
+                "issue:": "string content",
+                "priorityLevel:": "high",
+                "date:": "2019-11-16",
+            }
+
+### Retrieve a single Appointment [GET]
+
++ Response 200 (application/json)
+
+    [Appointment][]
+    
+## Accept Appointment [/appointments/{appointment_id}/acceptance]
+
++ Parameters
+    + appointment_id: 1 (required, string) - ID of the Appointment in form of a string
+
+### Accept an  Appointment [PUT]
+
++ Response 201 (application/json)
+
+## Appointments Collection [/appointments]
+Collection of all Appointments
+
++ Model (application/hal+json)
+
+    HAL+JSON representation of Appointments Collection Resource.
+    
+    + Headers
+
+            Link: <http:/api.exmple.com/appointments>;rel="self"
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/appointments" }
+                },
+                "_embedded": {
+                    "appointments": [
+                        {
+                            "_links" : {
+                                "self": { "href": "/appointments/42" }
+                            },
+                            "id": "42",
+                            "contractId": "1",
+                            "contractorsName:": "X",
+                            "roomNumber": "A1",
+                            "issue:": "string content",
+                            "priorityLevel:": "high",
+                            "date:": "2019-11-16",
+                        }
+                    ]
+                }
+            }
+### List all Appointments [GET]
++ Parameters
+   + date (string, optional) - Date to filter
+   + pageNum: 1 (integer, optional) - Page number for the pagination
+   + pageSize: 20 (integer, optional) - Page size for the pagination.
+   
++ Response 200 (application/json)
+    [Appointments Collection][]
+    
+### Create a New Appointment [POST]
+
++ contractId (string)
++ contractorsName (string)
++ roomNumber (string)
++ issue (string)
++ priorityLevel (string)
++ date (string)
+
++ Request (application/json)
+
+    {
+        {
+            "contractId": "1",
+            "contractorsName:": "X",
+            "roomNumber": "A1",
+            "issue:": "string content",
+            "priorityLevel:": "high",
+            "date:": "2019-11-16",
+            
+        }
+    }
+    
++ Response 201 (application/json)
+
+    [Appointment][]

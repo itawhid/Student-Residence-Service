@@ -1,0 +1,162 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Contract Service
+
+## Contract [/contracts/{contract_id}]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+    
++ Model (application/hal+json)
+
+    HAL+JSON representation of Appointments Collection Resource.
+    
+    + Headers
+    
+            Link: <http:/api.exmple.com/contracts/42>;rel="self", <http:/api.exmple.com/contracts/42/acceptance>;rel="confirmation",<http:/api.exmple.com/contracts/42/extension>;rel="extension", <http:/api.exmple.com/contracts/42/termination>;rel="termination"
+    
+    + Body
+    
+            {
+                "_links" : {
+                    "self": { "href": "/contracts/42" },
+                    "confirmation": { "href": "/contracts/42/confirmation" },
+                    "confirmation": { "href": "/contracts/42/confirmation" },
+                    "termination": { "href": "/contracts/42/termination" }
+                },
+                "id": "42",
+                "contractorsName:": "X",
+                "contractorsEmail": "xyz.com",
+                "contractorsPhone": "121212",
+                "roomNumber": "A1",
+                "startDate:": "2019-11-16",
+                "endDate:": "2020-11-16",
+                "status:": "confirmed",
+            }
+
+### Retrieve a single Contract [GET]
+
++ Response 200 (application/json)
+
+    [Contract][]
+        
+## Contract confirmation [/contracts/{contract_id}/confirmation]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+
+### Confrm Contract [PUT]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+    
++ Response 201 (application/json)
+
+
+## Contract Extension [/contracts/{contract_id}/extension]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+    
+### Extend Contract [PUT]
++ Request (application/json)
+
+        {
+            "newEndDate" : ""
+        }
++ Response 201 (application/json)
+
+    [Contract][]
+
+
+## Terminate Contract [/contracts/{contract_id}/termination]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+    
+### Terminate a contract [PUT]
++ Request (application/json)
+
+        {
+            "newEndDate" : ""
+        }
+
++ Response 201 (application/json)
+
+    [Contract][]
+    
+    
+    
+## Contracts Collection [/contracts]
+Collection of all contracts
+
++ Model (application/hal+json)
+
+    HAL+JSON representation of Contracts Collection Resource.
+    
+    + Headers
+
+            Link: <http:/api.exmple.com/contracts>;rel="self"
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/contracts" }
+                },
+                "_embedded": {
+                    "appointments": [
+                        {
+                            "_links" : {
+                                "self": { "href": "/contracts/42" }
+                            },
+                            "id": "42",
+                            "contractorsName:": "X",
+                            "contractorsEmail": "xyz.com",
+                            "contractorsPhone": "121212",
+                            "roomNumber": "A1",
+                            "startDate:": "2019-11-16",
+                            "endDate:": "2020-11-16",
+                            "status:": "confirmed",
+                        }
+                    ]
+                }
+            }
+### List all Contracts [GET]
++ Parameters
+   + contractorsName (string, optional) - Contractors name to filter
+   + pageNum: 1 (integer, optional) - Page number for the pagination
+   + pageSize: 20 (integer, optional) - Page size for the pagination.
+   
++ Response 200 (application/json)
+    [Contracts Collection][]
+    
+### Create a New Contract [POST]
+
++ contractorsName (string)
++ contractorsEmail (string)
++ contractorsPhone (string)
++ roomNumber (string)
++ startDate (string)
++ endDate (string)
++ status (string)
+
++ Request (application/json)
+
+    {
+        {
+            "contractorsName:": "X",
+            "contractorsEmail": "xyz.com",
+            "contractorsPhone": "121212",
+            "roomNumber": "A1",
+            "startDate:": "2019-11-16",
+            "endDate:": "2020-11-16",
+            "status:": "confirmed",
+            
+        }
+    }
+    
++ Response 201 (application/json)
+
+    [Contract][]

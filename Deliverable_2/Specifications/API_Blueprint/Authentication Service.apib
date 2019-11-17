@@ -1,0 +1,49 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Authentication Service
+
+## Authenticate Token [/authentication/accesstoken]
+
+### Authenticates an access token [GET]
+
++ Response 200 (application/json)
+
+        {
+            {
+                "userId":"",
+                "firstName": "123",
+                "lastName": "",
+                "roles": ""
+            }
+        }
+        
+## Authenticate User [/authentication/user]
+
+### Authenticates an user  [POST]
+
++ userId (string)
++ password (string)
+
++ Request (application/json)
+
+    {
+        {
+            "userId": "",
+            "password": ""
+        }
+    }
+    
++ Response 201 (application/json)
+
+    + Headers
+
+        Location: /authentication/user
+
+    + Body
+
+        {
+            {
+                "accessToken":"",
+            }
+        }
