@@ -1,0 +1,210 @@
+#%RAML 1.0
+title: Caretaker Service
+version: v1
+baseUri: http://{caretaker-service-base-uri}/api
+mediaType: [application/json, application/xml]
+documentation:
+  - title: Caretaker Service
+    content: |
+      Methods for appoinment resources
+
+securitySchemes:
+   bearerAuth:
+     type: Basic Authentication
+     description: JWT authentication
+     settings:
+       bearerFormat: JWT
+
+types:
+  NewAppointment:
+    type: object
+    properties:
+      contractId:
+        type: string
+        required: true
+      contractorsName:
+        type: string
+        required: true
+      roomNumber:
+        type: string
+        required: true
+      issue:
+        type: string
+        required: true
+        maxLength: 200
+      priorityLevel:
+        type: array
+        required: true
+        items:
+          enum:
+            - low
+            - normal
+            - high
+      entryDate:
+        type: date-only
+        required: true
+      appointmentType:
+        type: array
+        required: true
+        items:
+          enum:
+            - moveIn
+            - moveOut
+            - miscellaneous
+    xml:
+      name: NewAppointment
+
+  Appointment:
+    type: object
+    properties:
+      appointmentId:
+        type: string
+      contractId:
+        type: string
+      contractorsName:
+        type: string
+      roomNumber:
+        type: string
+      issue:
+        type: string
+      priorityLevel:
+        type: array
+        items:
+          enum:
+            - low
+            - normal
+            - high
+      entryDate:
+        type: date-only
+      appointmentType:
+        type: array
+        items:
+          enum:
+            - moveIn
+            - moveOut
+            - miscellaneous
+      _links:
+        type: object
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+    xml:
+      name: Appointment
+
+  Appointments:
+    type: object
+    properties:
+      data:
+        type: array
+        items: Appointment
+      _links:
+        type: object
+        properties:
+          next:
+            type: object
+            properties:
+              href:
+                type: string
+          prev:
+            type: object
+            properties:
+              href:
+                type: string
+    xml:
+      name: Appointments
+
+/appointments:
+  post:
+    description:  Method to add a new appoinment. Users only with Resident role can invoke this method. Move In appoinntment can only be added only after the confirmation of the contract. Move Out appointment can only be added no earlier than three months before the contract's current end date.
+    body:
+      application/json:
+        type: NewAppointment
+      application/xml:
+        type: NewAppointment
+
+    responses:
+      200:
+        description: Successful operation
+        body:
+          application/json:
+            type: Appointment
+          application/xml:
+            type: Appointment
+      400:
+        description: Validation failed
+      401:
+        description: Missing/invalid access token or role not valid for the operation.
+      404:
+        description: No appointment found with the specified id.
+    securedBy:
+      - bearerAuth
+
+  get:
+    description: Method to retrieve multiple appointments. Use allowed query parameters to filter and pagination. Users with Administrator, Caretaker and Resident roles can invoke this method.
+    queryParameters:
+      entryDate:
+        displayName: date
+        description: Date to filter by
+        required: false
+        type: string
+      pageNum:
+        displayName: pageNum
+        description: Page number for the pagination. (default only if pageSize is present)
+        required: false
+        type: integer
+        default: 1
+      pageSize:
+        displayName: pageSize
+        description: Page size for the pagination. (default only if pageNum is present)
+        required: false
+        type: integer
+        default: 20
+    responses:
+      200:
+        description: Successful operation
+        body:
+          application/json:
+            type: Appointments
+          application/xml:
+            type: Appointments
+      401:
+        description: Missing/invalid access token or role not valid for the operation.
+    securedBy:
+      - bearerAuth
+
+  /{appointment-id}:
+    get:
+      description: Method to retrieve a partucular appointment. Users with Administrator, Caretaker and Resident roles can invoke this method.
+      responses:
+        200:
+          description: Successful operation
+          body:
+            application/json:
+              type: Appointment
+            application/xml:
+              type: Appointment
+        400:
+          description: Missing/invalid access token or role not valid for the operation.
+        404:
+          description: No appointment found with the specified ID.
+      securedBy:
+        - bearerAuth
+
+  /{appointment-id}/acceptance:
+    put:
+      description: Method to confirm a partucular appointment. An appointment can only be confirmed no later than two weeks after it's creation. Users only with Resident role can invoke this method.
+      responses:
+        201:
+          description: Successful operation
+        400:
+          description: Validation failed
+        401:
+          description: Missing/invalid access token or role not valid for the operation.
+        404:
+          description: No contract found with the specified ID
+      securedBy:
+        - bearerAuth
+
