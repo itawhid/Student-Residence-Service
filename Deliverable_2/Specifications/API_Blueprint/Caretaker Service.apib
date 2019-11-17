@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://{caretaker-service-base-uri}/api
 
 # Caretaker Service
 
@@ -32,22 +32,51 @@ HOST: http://polls.apiblueprint.org/
                 "date:": "2019-11-16",
             }
 
+
 ### Retrieve a single Appointment [GET]
+Method to retrieve a partucular appointment. Users with Administrator, Caretaker and Resident roles can invoke this method.
 
 + Response 200 (application/json)
 
-    [Appointment][]
-    
+   [Appointment][]
+   
++ Response 401 
+    Missing/invalid access token or role not valid for the operation
+
++ Response 404 
+    No appointment found with the specified ID
+ 
+ 
+ 
+ 
+        
 ## Accept Appointment [/appointments/{appointment_id}/acceptance]
 
 + Parameters
     + appointment_id: 1 (required, string) - ID of the Appointment in form of a string
 
+
 ### Accept an  Appointment [PUT]
+Method to accept a partucular appointment. An appointment can only be confirmed no later than two weeks after it's creation. Users only with Resident role can invoke this method.
 
 + Response 201 (application/json)
 
-## Appointments Collection [/appointments]
++ Response 400 
+
+        Validation failed
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
++ Response 404 
+
+        No contract found with the specified ID
+        
+        
+        
+        
+## Appointments Collection [/appointments{?date,pageNum,pageSize}]
 Collection of all Appointments
 
 + Model (application/hal+json)
@@ -81,23 +110,32 @@ Collection of all Appointments
                     ]
                 }
             }
+            
+            
 ### List all Appointments [GET]
+Method to retrieve multiple appointments. Use allowed query parameters to filter and pagination. Users with Administrator, Caretaker and Resident roles can invoke this method.
+
 + Parameters
    + date (string, optional) - Date to filter
-   + pageNum: 1 (integer, optional) - Page number for the pagination
-   + pageSize: 20 (integer, optional) - Page size for the pagination.
    
+   + pageNum (integer, optional) - Page number for the pagination
+        + Default: 1 (only if pageSize is present)
+        
+   + pageSize (integer, optional) - Page size for the pagination.
+        + Default: 20 (only if pageNum is present)
+        
+        
 + Response 200 (application/json)
     [Appointments Collection][]
     
-### Create a New Appointment [POST]
++ Response 401 
 
-+ contractId (string)
-+ contractorsName (string)
-+ roomNumber (string)
-+ issue (string)
-+ priorityLevel (string)
-+ date (string)
+        Missing/invalid access token or role not valid for the operation  
+        
+        
+        
+### Create a New Appointment [POST]
+Method to add a new appoinment. Users only with Resident role can invoke this method. Move In appoinntment can only be added only after the confirmation of the contract. Move Out appointment can only be added no earlier than three months before the contract's current end date.
 
 + Request (application/json)
 
@@ -116,3 +154,23 @@ Collection of all Appointments
 + Response 201 (application/json)
 
     [Appointment][]
+    
+    
++ Response 400 
+
+        Validation failed
+
+
+
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
+
+
+
++ Response 404 
+
+        No appointment found with the specified id    
+    
