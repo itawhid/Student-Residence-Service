@@ -7,33 +7,9 @@ HOST: http://{contract-service-base-uri}/api
 
 + Parameters
     + contract_id: 1 (required, string) - ID of the Contract in form of a string
-    
-+ Model (application/hal+json)
 
-    HAL+JSON representation of Appointments Collection Resource.
-    
-    + Headers
-    
-            Link: <http:/api.exmple.com/contracts/42>;rel="self", <http:/api.exmple.com/contracts/42/acceptance>;rel="confirmation",<http:/api.exmple.com/contracts/42/extension>;rel="extension", <http:/api.exmple.com/contracts/42/termination>;rel="termination"
-    
-    + Body
-    
-            {
-                "_links" : {
-                    "self": { "href": "/contracts/42" },
-                    "confirmation": { "href": "/contracts/42/confirmation" },
-                    "confirmation": { "href": "/contracts/42/confirmation" },
-                    "termination": { "href": "/contracts/42/termination" }
-                },
-                "id": "42",
-                "contractorsName:": "X",
-                "contractorsEmail": "xyz.com",
-                "contractorsPhone": "121212",
-                "roomNumber": "A1",
-                "startDate:": "2019-11-16",
-                "endDate:": "2020-11-16",
-                "status:": "confirmed",
-            }
++ Attributes (NewContract)
+    + contractId: 1 (string, optional)
 
 
 ### Retrieve a single Contract [GET]
@@ -41,7 +17,7 @@ Method to retrieve a partucular contract. Users only with Administrator and Resi
 
 + Response 200 (application/json)
 
-    [Contract][]
+    + Attributes (Contract)
     
 + Response 401 
 
@@ -98,7 +74,7 @@ Method to extend a partucular contract. A contract can only be extended no later
         
 + Response 201 (application/json)
 
-    [Contract][]
+   + Attributes (Contract)
     
 + Response 400 
 
@@ -133,7 +109,7 @@ Method to extend a partucular contract. A contract can only be terminated no lat
 
 + Response 201 (application/json)
 
-    [Contract][]
+    + Attributes (Contract)
     
 + Response 400 
 
@@ -149,46 +125,16 @@ Method to extend a partucular contract. A contract can only be terminated no lat
 
         No contract found with the specified ID    
     
-## Contracts Collection [/contracts{?contractorsName,pageNum,pageSize}]
+## Contracts Collection [/contracts]
 Collection of all contracts
 
-+ Model (application/hal+json)
-
-    HAL+JSON representation of Contracts Collection Resource.
-    
-    + Headers
-
-            Link: <http:/api.exmple.com/contracts>;rel="self"
-
-    + Body
-
-            {
-                "_links": {
-                    "self": { "href": "/contracts" }
-                },
-                "_embedded": {
-                    "appointments": [
-                        {
-                            "_links" : {
-                                "self": { "href": "/contracts/42" }
-                            },
-                            "id": "42",
-                            "contractorsName:": "X",
-                            "contractorsEmail": "xyz.com",
-                            "contractorsPhone": "121212",
-                            "roomNumber": "A1",
-                            "startDate:": "2019-11-16",
-                            "endDate:": "2020-11-16",
-                            "status:": "confirmed",
-                        }
-                    ]
-                }
-            }
-            
-            
++ Attributes (array[Contract])
+        
             
 ### List all Contracts [GET]
 Method to retrieve multiple contracts. Use allowed query parameters to filter and pagination. Users only with Administrator and Resident roles can invoke this method.
+
+
 
 + Parameters
    + contractorsName (string, optional) - Contractors name to filter
@@ -201,7 +147,7 @@ Method to retrieve multiple contracts. Use allowed query parameters to filter an
         
         
 + Response 200 (application/json)
-    [Contracts Collection][]
+    + Attributes (Contracts Collection)
 
 + Response 401 
 
@@ -211,35 +157,14 @@ Method to retrieve multiple contracts. Use allowed query parameters to filter an
 ### Create a New Contract [POST]
 Method to add a new contract. Users only with Administrator role can invoke this method.
 
-
-+ contractorsName (string)
-+ contractorsEmail (string)
-+ contractorsPhone (string)
-+ roomNumber (string)
-+ startDate (string)
-+ endDate (string)
-+ status (string)
++ Attributes (NewContract)
 
 + Request (application/json)
 
-    {
-        {
-            "contractorsName:": "X",
-            "contractorsEmail": "xyz.com",
-            "contractorsPhone": "121212",
-            "roomNumber": "A1",
-            "startDate:": "2019-11-16",
-            "endDate:": "2020-11-16",
-            "status:": "confirmed",
-            
-        }
-    }
-    
-    
     
 + Response 201 (application/json)
 
-    [Contract][]
+    + Attributes (Contract)
         
 + Response 400 
 
@@ -249,3 +174,20 @@ Method to add a new contract. Users only with Administrator role can invoke this
 + Response 401 
 
         Missing/invalid access token or role not valid for the operation
+        
+
+# Data Structures
+
+## NewContract (object)
+
+
+### Properties
++ contractorsName: X (string, optional) 
++ contractorsEmail: xyz.com (string, optional) 
++ contractorsPhone: 12121 (string, optional) 
++ roomNumber: A201 (string, optional) 
++ startDate: 2019-11-16 (string, optional) 
++ endDate: 2020-11-16 (string, optional) 
++ status: confirmed (enum[string], optional) - Contract Status
+    + confirmed
+    + unconfirmed

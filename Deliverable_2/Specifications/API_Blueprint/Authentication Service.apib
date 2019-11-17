@@ -7,17 +7,12 @@ Methods for authentication
 ## Authenticate Token [/authentication/accesstoken]
 
 ### Authenticates an access token [GET]
+
 Method to authenticates an access token.
+
 + Response 200 (application/json)
 
-        {
-            {
-                "userId":"x123",
-                "firstName": "John",
-                "lastName": "Doe",
-                "roles": "admin"
-            }
-        }
+    + Attributes (User)
  
  
 + Response 401 
@@ -30,31 +25,14 @@ Method to authenticates an access token.
 ### Authenticates a user  [POST]
 Method to authenticate an user.
 
-+ userId (string)
-+ password (string)
 
 + Request (application/json)
 
-    {
-        {
-            "userId": "x123",
-            "password": "*****"
-        }
-    }
+    + Attributes (LoginRequest)
     
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
-    + Headers
-
-        Location: /authentication/user
-
-    + Body
-
-        {
-            {
-                "accessToken":"",
-            }
-        }
+    + Attributes (LoginResponse)
         
 
 + Response 403 
@@ -65,3 +43,30 @@ Method to authenticate an user.
 + Response 404 
 
         No user found with the specified user id.
+        
+        
+# Data Structures
+
+## LoginRequest (object)
+
+
+### Properties
++ userId: 123 (string, optional) 
++ password: ***** (string, optional) 
+
+
+## LoginResponse (object)
+
+
+### Properties
++ `access_token`: `eyJhbGciOiJIUzI1NiJ9.e30.XmNK3GpH3Ys_7wsYBfq4C3M6goz71I7dTgUkuIa5lyQ` (string, required) - valid JWT 
+
+
+## User (object)
+
+
+### Properties
++ userId: 123 (string, optional) 
++ firstName: John (string, optional) 
++ lastName: Doe (string, optional) 
++ roles: admin (array[string], optional) 
