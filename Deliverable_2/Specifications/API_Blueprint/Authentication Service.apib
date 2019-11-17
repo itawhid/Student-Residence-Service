@@ -1,26 +1,34 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://{authentication-service-base-uri}/api
 
 # Authentication Service
+Methods for authentication
 
 ## Authenticate Token [/authentication/accesstoken]
 
 ### Authenticates an access token [GET]
-
+Method to authenticates an access token.
 + Response 200 (application/json)
 
         {
             {
-                "userId":"",
-                "firstName": "123",
-                "lastName": "",
-                "roles": ""
+                "userId":"x123",
+                "firstName": "John",
+                "lastName": "Doe",
+                "roles": "admin"
             }
         }
+ 
+ 
++ Response 401 
+
+    Authentication failed
+        
         
 ## Authenticate User [/authentication/user]
 
-### Authenticates an user  [POST]
+### Authenticates a user  [POST]
+Method to authenticate an user.
 
 + userId (string)
 + password (string)
@@ -29,8 +37,8 @@ HOST: http://polls.apiblueprint.org/
 
     {
         {
-            "userId": "",
-            "password": ""
+            "userId": "x123",
+            "password": "*****"
         }
     }
     
@@ -47,3 +55,13 @@ HOST: http://polls.apiblueprint.org/
                 "accessToken":"",
             }
         }
+        
+
++ Response 403 
+
+        Wrong password
+
+
++ Response 404 
+
+        No user found with the specified user id.
