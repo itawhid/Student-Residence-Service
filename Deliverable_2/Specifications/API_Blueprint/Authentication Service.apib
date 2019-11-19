@@ -1,0 +1,88 @@
+FORMAT: 1A
+HOST: http://{authentication-service-base-uri}/api
+
+# Authentication Service
+Methods for authentication
+
+## Authentication
+This API uses JSON Web Tokens for its authentication.
+
+The parameters that are needed to be sent for this type of authentication are as follows:
++ `JWTHeaderName`
++ `JWTAcquireURL`
++ `JWTDestroyURL`
+
+## Authenticate Token [/authentication/accesstoken]
+
+### Authenticates an access token [GET]
+
+Method to authenticates an access token.
+
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT 
+
++ Response 200 (application/json)
+
+    + Attributes (User)
+ 
+ 
++ Response 401 
+
+    Authentication failed
+        
+        
+## Authenticate User [/authentication/user]
+
+### Authenticates a user  [POST]
+Method to authenticate an user.
+
+
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT
+        
+    + Attributes (LoginRequest)
+    
++ Response 200 (application/json)
+
+    + Attributes (LoginResponse)
+        
+
++ Response 403 
+
+        Wrong password
+
+
++ Response 404 
+
+        No user found with the specified user id.
+        
+        
+# Data Structures
+
+## LoginRequest (object)
+
+
+### Properties
++ userId: 123 (string, optional) 
++ password: ***** (string, optional) 
+
+
+## LoginResponse (object)
+
+
+### Properties
++ `access_token`: `eyJhbGciOiJIUzI1NiJ9.e30.XmNK3GpH3Ys_7wsYBfq4C3M6goz71I7dTgUkuIa5lyQ` (string, required) - valid JWT 
+
+
+## User (object)
+
+
+### Properties
++ userId: 123 (string, optional) 
++ firstName: John (string, optional) 
++ lastName: Doe (string, optional) 
++ roles: admin (array[string], optional) 

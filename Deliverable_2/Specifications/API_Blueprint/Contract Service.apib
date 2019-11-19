@@ -1,0 +1,327 @@
+FORMAT: 1A
+HOST: http://{contract-service-base-uri}/api
+
+# Contract Service
+
+## Authentication
+This API uses JSON Web Tokens for its authentication.
+
+The parameters that are needed to be sent for this type of authentication are as follows:
++ `JWTHeaderName`
++ `JWTAcquireURL`
++ `JWTDestroyURL`
+
+## Contract [/contracts/{contract_id}]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+
++ Attributes (NewContract)
+    + contractId: 1 (string, optional)
+
+
+### Retrieve a single Contract [GET]
+Method to retrieve a partucular contract. Users only with Administrator and Resident roles can invoke this method.
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT
+
++ Response 200 (application/json)
+
+    + Attributes (Contract)
+    
++ Request XML (application/xml)
+    + Headers
+
+        authorization: Bearer JWT
+        
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>     
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
+
+
+
++ Response 404 
+
+        No contract found with the specified ID    
+        
+        
+        
+## Contract Confirmation [/contracts/{contract_id}/confirmation]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+
+### Confirm a Contract [PUT]
+Method to confirm a partucular contract. A contract can only be confirmed no later than two weeks after it's creation. Users only with Resident role can invoke this method.
+
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT   
+        
++ Response 201 (application/json)
+
++ Response 400 
+
+        Validation failed
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
++ Response 404 
+
+        No contract found with the specified ID
+
+
+        
+## Contract Extension [/contracts/{contract_id}/extension]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+    
+### Extend a Contract [PUT]
+Method to extend a partucular contract. A contract can only be extended no later than three months before it's current end date and maximum for six months only. Users only with Resident role can invoke this method.
+
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT 
+        
+    + Body    
+        {
+            "newEndDate" : ""
+        }
+        
+        
++ Response 201 (application/json)
+
+   + Attributes (Contract)
+   
++ Request XML (application/xml)
+    + Headers
+
+        authorization: Bearer JWT 
+        
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>     
++ Response 400 
+
+        Validation failed
+
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
+
++ Response 404 
+
+        No contract found with the specified ID
+        
+        
+## Terminate Contract [/contracts/{contract_id}/termination]
+
++ Parameters
+    + contract_id: 1 (required, string) - ID of the Contract in form of a string
+    
+### Terminate a contract [PUT]
+Method to extend a partucular contract. A contract can only be terminated no later than three months before it's current end date and maximum for six months only. Users only with Resident role can invoke this method.
+
+
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT 
+        
+    + Body
+    
+        {
+            "newEndDate" : ""
+        }
+
+
++ Response 201 (application/json)
+
+    + Attributes (Contract)
+    
++ Request XML (application/xml)
+   + Headers
+
+        authorization: Bearer JWT 
+        
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>     
++ Response 400 
+
+        Validation failed
+
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+
+
++ Response 404 
+
+        No contract found with the specified ID    
+    
+## Contracts Collection [/contracts]
+Collection of all contracts
+
++ Attributes (array[Contract])
+        
+            
+### List all Contracts [GET]
+Method to retrieve multiple contracts. Use allowed query parameters to filter and pagination. Users only with Administrator and Resident roles can invoke this method.
+
+
+
++ Parameters
+   + contractorsName (string, optional) - Contractors name to filter
+   
+   + pageNum (integer, optional) - Page number for the pagination
+        + Default: 1 (only if pageSize is present)
+        
+   + pageSize (integer, optional) - Page size for the pagination.
+        + Default: 20 (only if pageNum is present)
+        
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT 
+        
++ Response 200 (application/json)
+    + Attributes (Contracts Collection)
+
++ Request XML (application/xml)
+    + Headers
+
+        authorization: Bearer JWT 
+        
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <contracts>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract> 
+            <contracts>
+            
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+        
+        
+### Create a New Contract [POST]
+Method to add a new contract. Users only with Administrator role can invoke this method.
+
++ Attributes (NewContract)
+
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT
+    
++ Response 201 (application/json)
+
+    + Attributes (Contract)
+    
++ Request XML (application/xml)
+    + Headers
+
+        authorization: Bearer JWT
+        
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>        
++ Response 400 
+
+        Validation failed
+
+
++ Response 401 
+
+        Missing/invalid access token or role not valid for the operation
+        
+
+# Data Structures
+
+## NewContract (object)
+
+
+### Properties
++ contractorsName: X (string, optional) 
++ contractorsEmail: xyz.com (string, optional) 
++ contractorsPhone: 12121 (string, optional) 
++ roomNumber: A201 (string, optional) 
++ startDate: 2019-11-16 (string, optional) 
++ endDate: 2020-11-16 (string, optional) 
++ status: confirmed (enum[string], optional) - Contract Status
+    + confirmed
+    + unconfirmed
