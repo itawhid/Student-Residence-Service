@@ -3,6 +3,14 @@ HOST: http://{contract-service-base-uri}/api
 
 # Contract Service
 
+## Authentication
+This API uses JSON Web Tokens for its authentication.
+
+The parameters that are needed to be sent for this type of authentication are as follows:
++ `JWTHeaderName`
++ `JWTAcquireURL`
++ `JWTDestroyURL`
+
 ## Contract [/contracts/{contract_id}]
 
 + Parameters
@@ -19,6 +27,23 @@ Method to retrieve a partucular contract. Users only with Administrator and Resi
 
     + Attributes (Contract)
     
++ Request XML (application/xml)
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>     
 + Response 401 
 
         Missing/invalid access token or role not valid for the operation
@@ -75,7 +100,24 @@ Method to extend a partucular contract. A contract can only be extended no later
 + Response 201 (application/json)
 
    + Attributes (Contract)
-    
+   
++ Request XML (application/xml)
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>     
 + Response 400 
 
         Validation failed
@@ -111,6 +153,23 @@ Method to extend a partucular contract. A contract can only be terminated no lat
 
     + Attributes (Contract)
     
++ Request XML (application/xml)
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>     
 + Response 400 
 
         Validation failed
@@ -149,6 +208,26 @@ Method to retrieve multiple contracts. Use allowed query parameters to filter an
 + Response 200 (application/json)
     + Attributes (Contracts Collection)
 
++ Request XML (application/xml)
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <contracts>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract> 
+            <contracts>
+            
 + Response 401 
 
         Missing/invalid access token or role not valid for the operation
@@ -165,7 +244,24 @@ Method to add a new contract. Users only with Administrator role can invoke this
 + Response 201 (application/json)
 
     + Attributes (Contract)
-        
+    
++ Request XML (application/xml)
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <contract>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <contractorsEmail>xyz.com</contractorsEmail>
+                    <contractorsPhone>12121</contractorsPhone>
+                    <roomNumber>A201</roomNumber>
+                    <startDate>2019-11-16</startDate>
+                    <endDate>2020-11-16</endDate>
+                    <status>confirmed</status>
+                <contract>        
 + Response 400 
 
         Validation failed

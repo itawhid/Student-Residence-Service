@@ -3,6 +3,14 @@ HOST: http://{caretaker-service-base-uri}/api
 
 # Caretaker Service
 
+## Authentication
+This API uses JSON Web Tokens for its authentication.
+
+The parameters that are needed to be sent for this type of authentication are as follows:
++ `JWTHeaderName`
++ `JWTAcquireURL`
++ `JWTDestroyURL`
+
 ## Appointment [/appointments/{appointment_id}]
 
 + Parameters
@@ -17,6 +25,23 @@ HOST: http://{caretaker-service-base-uri}/api
 
    + Attributes (Appointment)
    
++ Request XML (application/xml)
+
++ Response 200 (application/xml)
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <appointment>
+                <appointmentId>1</appointmentId>
+                <contractId>1</contractId>
+                <contractorsName>X</contractorsName>
+                <roomNumber>A1</roomNumber>
+                <issue>Issue</issue>
+                <priorityLevel>low</priorityLevel>
+                <date>2017-11-19</date>
+                <appointmentType>moveIn</appointmentType>
+            </appointment>  
+            
 + Response 401 
     Missing/invalid access token or role not valid for the operation
 
@@ -73,7 +98,27 @@ Method to retrieve multiple appointments. Use allowed query parameters to filter
 + Response 200 (application/json)
 
     + Attributes (Appointments Collection)
-    
+
++ Request XML (application/xml)
+
++ Response 200 (application/xml)
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <appointments>
+                <appointment>
+                    <appointmentId>1</appointmentId>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <roomNumber>A1</roomNumber>
+                    <issue>Issue</issue>
+                    <priorityLevel>low</priorityLevel>
+                    <date>2017-11-19</date>
+                    <appointmentType>moveIn</appointmentType>
+                <appointment>
+            </appointments> 
+            
+            
 + Response 401 
 
         Missing/invalid access token or role not valid for the operation  
@@ -87,11 +132,29 @@ Method to add a new appoinment. Users only with Resident role can invoke this me
         
 + Request (application/json)
 
+
 + Response 201 (application/json)
 
     + Attributes (Appointment)
     
-    
++ Request XML (application/xml)
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+                <appointment>
+                    <appointmentId>1</appointmentId>
+                    <contractId>1</contractId>
+                    <contractorsName>X</contractorsName>
+                    <roomNumber>A1</roomNumber>
+                    <issue>Issue</issue>
+                    <priorityLevel>low</priorityLevel>
+                    <date>2017-11-19</date>
+                    <appointmentType>moveIn</appointmentType>
+                <appointment>
+            
 + Response 400 
 
         Validation failed
@@ -127,7 +190,3 @@ Method to add a new appoinment. Users only with Resident role can invoke this me
     + `moveIn`
     + `moveOut`
     + `miscellaneous`
-
-
-
-    

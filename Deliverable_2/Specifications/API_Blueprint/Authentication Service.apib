@@ -4,6 +4,14 @@ HOST: http://{authentication-service-base-uri}/api
 # Authentication Service
 Methods for authentication
 
+## Authentication
+This API uses JSON Web Tokens for its authentication.
+
+The parameters that are needed to be sent for this type of authentication are as follows:
++ `JWTHeaderName`
++ `JWTAcquireURL`
++ `JWTDestroyURL`
+
 ## Authenticate Token [/authentication/accesstoken]
 
 ### Authenticates an access token [GET]
