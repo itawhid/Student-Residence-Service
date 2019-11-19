@@ -20,12 +20,19 @@ The parameters that are needed to be sent for this type of authentication are as
     + appointmentId: 1 (string, optional)
 
 ### Retrieve a single Appointment [GET]
++ Request (application/json)
+    + Headers
 
+        authorization: Bearer JWT
+        
 + Response 200 (application/json)
 
    + Attributes (Appointment)
    
 + Request XML (application/xml)
+    + Headers
+
+        authorization: Bearer JWT 
 
 + Response 200 (application/xml)
     + Body
@@ -58,6 +65,10 @@ The parameters that are needed to be sent for this type of authentication are as
 
 ### Accept an  Appointment [PUT]
 Method to accept a partucular appointment. An appointment can only be confirmed no later than two weeks after it's creation. Users only with Resident role can invoke this method.
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT
 
 + Response 201 (application/json)
 
@@ -94,13 +105,20 @@ Method to retrieve multiple appointments. Use allowed query parameters to filter
         + Default: 20 (only if pageNum is present)
         
       
-        
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT  
+
 + Response 200 (application/json)
 
     + Attributes (Appointments Collection)
 
 + Request XML (application/xml)
+    + Headers
 
+        authorization: Bearer JWT 
+        
 + Response 200 (application/xml)
     + Body
 
@@ -131,13 +149,18 @@ Method to add a new appoinment. Users only with Resident role can invoke this me
 + Attributes (NewAppointment)
         
 + Request (application/json)
+    + Headers
 
+        authorization: Bearer JWT 
 
 + Response 201 (application/json)
 
     + Attributes (Appointment)
     
 + Request XML (application/xml)
+    + Headers
+
+        authorization: Bearer JWT 
 
 + Response 201 (application/xml)
 

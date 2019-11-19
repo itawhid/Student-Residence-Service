@@ -18,6 +18,11 @@ The parameters that are needed to be sent for this type of authentication are as
 
 Method to authenticates an access token.
 
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT 
+
 + Response 200 (application/json)
 
     + Attributes (User)
@@ -35,7 +40,10 @@ Method to authenticate an user.
 
 
 + Request (application/json)
+    + Headers
 
+        authorization: Bearer JWT
+        
     + Attributes (LoginRequest)
     
 + Response 200 (application/json)

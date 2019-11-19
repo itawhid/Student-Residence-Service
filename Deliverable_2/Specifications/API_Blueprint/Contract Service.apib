@@ -22,13 +22,20 @@ The parameters that are needed to be sent for this type of authentication are as
 
 ### Retrieve a single Contract [GET]
 Method to retrieve a partucular contract. Users only with Administrator and Resident roles can invoke this method.
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT
 
 + Response 200 (application/json)
 
     + Attributes (Contract)
     
 + Request XML (application/xml)
+    + Headers
 
+        authorization: Bearer JWT
+        
 + Response 201 (application/xml)
 
     + Body
@@ -65,7 +72,11 @@ Method to retrieve a partucular contract. Users only with Administrator and Resi
 ### Confirm a Contract [PUT]
 Method to confirm a partucular contract. A contract can only be confirmed no later than two weeks after it's creation. Users only with Resident role can invoke this method.
 
-    
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT   
+        
 + Response 201 (application/json)
 
 + Response 400 
@@ -91,7 +102,11 @@ Method to confirm a partucular contract. A contract can only be confirmed no lat
 Method to extend a partucular contract. A contract can only be extended no later than three months before it's current end date and maximum for six months only. Users only with Resident role can invoke this method.
 
 + Request (application/json)
+    + Headers
 
+        authorization: Bearer JWT 
+        
+    + Body    
         {
             "newEndDate" : ""
         }
@@ -102,7 +117,10 @@ Method to extend a partucular contract. A contract can only be extended no later
    + Attributes (Contract)
    
 + Request XML (application/xml)
+    + Headers
 
+        authorization: Bearer JWT 
+        
 + Response 201 (application/xml)
 
     + Body
@@ -143,7 +161,12 @@ Method to extend a partucular contract. A contract can only be terminated no lat
 
 
 + Request (application/json)
+    + Headers
 
+        authorization: Bearer JWT 
+        
+    + Body
+    
         {
             "newEndDate" : ""
         }
@@ -154,7 +177,10 @@ Method to extend a partucular contract. A contract can only be terminated no lat
     + Attributes (Contract)
     
 + Request XML (application/xml)
+   + Headers
 
+        authorization: Bearer JWT 
+        
 + Response 201 (application/xml)
 
     + Body
@@ -204,12 +230,19 @@ Method to retrieve multiple contracts. Use allowed query parameters to filter an
    + pageSize (integer, optional) - Page size for the pagination.
         + Default: 20 (only if pageNum is present)
         
++ Request (application/json)
+    + Headers
+
+        authorization: Bearer JWT 
         
 + Response 200 (application/json)
     + Attributes (Contracts Collection)
 
 + Request XML (application/xml)
+    + Headers
 
+        authorization: Bearer JWT 
+        
 + Response 201 (application/xml)
 
     + Body
@@ -239,14 +272,19 @@ Method to add a new contract. Users only with Administrator role can invoke this
 + Attributes (NewContract)
 
 + Request (application/json)
+    + Headers
 
+        authorization: Bearer JWT
     
 + Response 201 (application/json)
 
     + Attributes (Contract)
     
 + Request XML (application/xml)
+    + Headers
 
+        authorization: Bearer JWT
+        
 + Response 201 (application/xml)
 
     + Body
