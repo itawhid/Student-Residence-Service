@@ -1,4 +1,4 @@
-package AppintmentInterface;
+package web;
 
 import Endpoints.IEndpoint;
 import ProjectExceptions.NotImplementedException;
@@ -10,7 +10,7 @@ import Response.IResponse;
  * @author Kowshik Dipta Das Joy
  *
  */
-public interface IAppointment extends IEndpoint{
+public interface IWebAppointment extends IEndpoint{
 
 /**
  * User should be able to request for appointment date.
