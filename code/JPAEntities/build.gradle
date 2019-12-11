@@ -26,5 +26,6 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
-    compile project(':Request')
+    // https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink
+compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.5.1'
 }

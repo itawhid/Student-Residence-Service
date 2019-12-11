@@ -11,8 +11,10 @@ rootProject.name = 'AppintmentInterface'
 include ':Response'
 include ':Request'
 include ':Endpoints'
+include ':BusinessLInterLibrary'
 include ':ProjectExceptions'
 project(':Response').projectDir = new File("../Response")
 project(':Request').projectDir = new File("../Request")
 project(':Endpoints').projectDir = new File("../Endpoints")
 project(':ProjectExceptions').projectDir = new File("../ProjectExceptions")
+project(':BusinessLInterLibrary').projectDir=new File("../BusinessLInterLibrary");

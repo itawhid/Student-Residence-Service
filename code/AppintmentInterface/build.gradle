@@ -30,4 +30,5 @@ dependencies {
     compile project(':Endpoints')
     compile project(':ProjectExceptions')
     compile project(':Request')
+    compile project(':BusinessLInterLibrary')
 }
