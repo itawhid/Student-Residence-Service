@@ -33,6 +33,7 @@ public class Appointment  {
 	private Date enddate;
 
 	@Column(nullable=false)
+	@Id
 	private int id;
 
 	@Column(length=1)

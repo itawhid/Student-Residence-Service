@@ -15,6 +15,7 @@ public class Admincontractapartmentrel  {
 	private static final long serialVersionUID = 1L;
 
 	@Column(nullable=false)
+	@Id
 	private int adminID;
 
 	@Column(nullable=false)

@@ -36,6 +36,7 @@ public class User  {
 	private String firstname;
 
 	@Column(nullable=false)
+	@Id
 	private int id;
 
 	@Column(nullable=false, length=500)

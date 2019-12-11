@@ -22,6 +22,7 @@ public class Apartment  {
 	@Column(length=200)
 	private String city;
 
+	@Id
 	@Column(nullable=false)
 	private int id;
 

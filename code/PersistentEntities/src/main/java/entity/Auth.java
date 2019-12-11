@@ -22,6 +22,7 @@ public class Auth  {
 	private String hash;
 
 	@Column(nullable=false)
+	@Id
 	private int id;
 
 	@Temporal(TemporalType.TIMESTAMP)

@@ -25,6 +25,7 @@ public class Contract  {
 	private Date enddate;
 
 	@Column(nullable=false)
+	@Id
 	private int idcontract;
 
 	@Temporal(TemporalType.TIMESTAMP)
