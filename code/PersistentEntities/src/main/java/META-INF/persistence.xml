@@ -3,17 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
-	<persistence-unit name="ProjectRestApi"
-		transaction-type="JTA">
-
-		<class>entity.Admin</class>
-		<class>entity.Admincontractapartmentrel</class>
-		<class>entity.Apartment</class>
-		<class>entity.Appointment</class>
-		<class>entity.Auth</class>
-		<class>entity.Contract</class>
-		<class>entity.User</class>
-
+	<persistence-unit name="ProjectRestApi" transaction-type="RESOURCE_LOCAL">
 
 	</persistence-unit>
 </persistence>
