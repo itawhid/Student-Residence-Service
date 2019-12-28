@@ -11,26 +11,38 @@ import org.appointment.dataaccess.data.enums.AppointmentStatus;
 import org.appointment.dataaccess.data.enums.AppointmentType;
 import org.appointment.dataaccess.data.models.Appointment;
 import org.appointment.dataaccess.respositories.interfaces.AppointmentRepository;
+import org.appointment.service.helpers.Configuration;
 import org.appointment.service.models.Contract;
 import org.appointment.service.models.NewAppointment;
+import org.daaaccess.Storage;
+
 import java.time.LocalDate;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.*;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 
+
 public class AppointmentServiceImpl implements org.appointment.service.services.interfaces.AppointmentService {
+	
+	
+	
 	@Inject
 	private AppointmentRepository appointmentRepository;
+	private  Storage storage =Storage.instance().build(Configuration.loadProperties("dbProperties.properties"));
+	
 
 	private Client client;
 
 	@Override
 	public Appointment createAppointment(NewAppointment newAppointment, String contextUserId) throws ValidationException, InvalidOperationException, ObjectNotFoundException {
 
-
+		
+		
+		
 		LocalDate createdOn = DateHelper.getCurrentDate();
 		String contractId = newAppointment.getContractId();
 
@@ -41,7 +53,7 @@ public class AppointmentServiceImpl implements org.appointment.service.services.
 		try {
 			  Contract contract = getContractor(contractId);
 			
-
+			  System.out.println("xxx");
 
 			if (!contract.getRoomNumber().equals(newAppointment.getRoomNumber())) {
 
