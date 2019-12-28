@@ -18,11 +18,13 @@ import java.util.stream.Collectors;
 
 public class AppointmentRepositoryImpl implements AppointmentRepository {
 	private static int id = 0;
+	
 
 	@Override
 	public Appointment add(Appointment appointment) {
 		appointment.setId(getNewId());
 
+		
 		DataStore.appointments.add(appointment);
 
 		return appointment;

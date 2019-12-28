@@ -3,4 +3,6 @@ include 'web'
 include 'data-access'
 include 'service'
 include 'common'
+include(':PersistantAccess')
+project(':PersistantAccess').projectDir = new File("../../PersistantAccess")
 

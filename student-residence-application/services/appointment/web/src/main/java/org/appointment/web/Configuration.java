@@ -14,4 +14,15 @@ public class Configuration {
             return null;
         }
     }
+    
+    
+    public static Properties loadProperties(String propertyName) {
+        try (InputStream stream = Configuration.class.getClassLoader().getResourceAsStream(propertyName)) {
+            Properties properties = new Properties();
+            properties.load(stream);
+            return properties;
+        } catch (IOException e) {
+            return null;
+        }
+    }
 }
