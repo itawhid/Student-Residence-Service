@@ -24,7 +24,7 @@ import java.util.List;
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class AppointmentResourceImpl implements AppointmentResource {
 	@Inject
-	private AppointmentService appointmentService;
+	private AppointmentService appointmentService ;
 
 	@Context
 	private UriInfo uriInfo;

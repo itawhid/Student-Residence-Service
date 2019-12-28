@@ -1,7 +1,11 @@
 package org.appointment.dataaccess.data.models;
 
+import javax.persistence.MappedSuperclass;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+@MappedSuperclass
 public class Entity {
     @JsonIgnore
     private int id;
