@@ -24,8 +24,8 @@ import java.time.LocalDate;
 @Table(name = "appointment")
 @NamedQueries({
 	
-	  @NamedQuery( name = "apointment.findAll", query = "SELECT a FROM appointment a")
-	 ,@NamedQuery(name ="apointment.getAppointmentById" , query = "SELECT a FROM appointment a where a.appointmentId like :appointmentId ")
+	  @NamedQuery( name = "appointment.findAll", query = "SELECT a FROM appointment a")
+	 ,@NamedQuery(name ="appointment.getAppointmentById" , query = "SELECT a FROM appointment a where a.appointmentId like :appointmentId ")
 	 ,@NamedQuery(name ="appointment.acceptAppointment" , query = "UPDATE appointment a SET a.status= :status WHERE a.appointmentId=:appointmentId")
 	 ,@NamedQuery(name ="appointment.findByContract" , query = "SELECT a from appointment a where a.contractId=:contractId")
 })

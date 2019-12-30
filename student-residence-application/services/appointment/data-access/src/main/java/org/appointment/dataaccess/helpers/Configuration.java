@@ -1,4 +1,4 @@
-package org.appointment.service.helpers;
+package org.appointment.dataaccess.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;

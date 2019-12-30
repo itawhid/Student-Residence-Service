@@ -1,15 +1,14 @@
 package org.appointment.dataaccess.respositories.implementations;
 
 import org.appointment.common.Messages;
-import org.appointment.common.exceptions.ObjectNotFoundException;
 import org.appointment.common.exceptions.PaginationRangeOutOfBoundException;
-import org.appointment.common.helpers.DateHelper;
 import org.appointment.common.helpers.PaginationHelper;
 import org.appointment.dataaccess.data.enums.AppointmentStatus;
 import org.appointment.dataaccess.data.models.Appointment;
+import org.appointment.dataaccess.helpers.Configuration;
 import org.appointment.dataaccess.models.PaginatedDataList;
 import org.appointment.dataaccess.respositories.interfaces.AppointmentRepository;
-import org.appointment.dataaccess.store.DataStore;
+import org.daaaccess.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,55 +17,71 @@ import java.util.stream.Collectors;
 
 public class AppointmentRepositoryImpl implements AppointmentRepository {
 	private static int id = 0;
+	private  Storage storage =Storage.instance().build(Configuration.loadProperties("dbProperties.properties"));
 	
-
 	@Override
 	public Appointment add(Appointment appointment) {
 		appointment.setId(getNewId());
-
+		storage.execute(appointment);
 		
-		DataStore.appointments.add(appointment);
+		//DataStore.appointments.add(appointment);
 
 		return appointment;
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Appointment> getAll() {
-		return new ArrayList<>(DataStore.appointments);
+		
+		//return new ArrayList<>(DataStore.appointments);
+		return (List<Appointment>) storage.execute("appointment.findAll" , Appointment.class);
 	}
 
 	@Override
 	public Appointment getById(String appointmentId) {
-		for(Appointment  appointment : DataStore.appointments){
-			if(appointment.getAppointmentId().equals(appointmentId)) {
-				return appointment;
-			}
-
-		}
-		return null;
+//		for(Appointment  appointment : DataStore.appointments){
+//			if(appointment.getAppointmentId().equals(appointmentId)) {
+//				return appointment;
+//			}
+//
+//		}
+		
+		List<Appointment> appointmentList = (List<Appointment>) storage.execute("appointment.getAppointmentById" , Appointment.class);
+		if(appointmentList.size()==0)
+			return null;
+		
+		return appointmentList.get(0);
 	}
 
 	@Override
 	public Appointment updateAppointmentStatus(String  appointmentId, AppointmentStatus status) {
+		Appointment appointment = getById(appointmentId);
+		if(appointment==null)
+			return null;
+		appointment.setStatus(status);
+		storage.update(appointment);
+		return appointment;
+//		int appointmentIndex;
+//		for(Appointment  appointment : DataStore.appointments){
+//			if(appointment.getAppointmentId().equals(appointmentId)) {
+//				appointmentIndex= DataStore.appointments.indexOf(appointment);			
+//				appointment.setStatus(status);
+//				DataStore.appointments.set(appointmentIndex, appointment);
+//				return appointment;
+//			}
+//		
+//		}
 		
-		int appointmentIndex;
-		for(Appointment  appointment : DataStore.appointments){
-			if(appointment.getAppointmentId().equals(appointmentId)) {
-				appointmentIndex= DataStore.appointments.indexOf(appointment);			
-				appointment.setStatus(status);
-				DataStore.appointments.set(appointmentIndex, appointment);
-				return appointment;
-			}
-		
-		}
-		return null;
+	
+		//return null;
 		
 	}
 
 	@Override
 	public PaginatedDataList<Appointment> getAll(int pageNum, int pageSize) throws PaginationRangeOutOfBoundException {
-		List<Appointment> appointmentList = DataStore.appointments;
+	//	List<Appointment> appointmentList = DataStore.appointments;
+		List<Appointment> appointmentList=getAll();
 
 		return getPaginatedAppointmentList(pageNum, pageSize, appointmentList);
 	}

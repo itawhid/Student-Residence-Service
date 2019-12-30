@@ -10,8 +10,8 @@ import org.appointment.common.Messages;
 import org.appointment.dataaccess.data.enums.AppointmentStatus;
 import org.appointment.dataaccess.data.enums.AppointmentType;
 import org.appointment.dataaccess.data.models.Appointment;
+import org.appointment.dataaccess.helpers.Configuration;
 import org.appointment.dataaccess.respositories.interfaces.AppointmentRepository;
-import org.appointment.service.helpers.Configuration;
 import org.appointment.service.models.Contract;
 import org.appointment.service.models.NewAppointment;
 import org.daaaccess.Storage;
@@ -32,7 +32,7 @@ public class AppointmentServiceImpl implements org.appointment.service.services.
 	
 	@Inject
 	private AppointmentRepository appointmentRepository;
-	private  Storage storage =Storage.instance().build(Configuration.loadProperties("dbProperties.properties"));
+	
 	
 
 	private Client client;
